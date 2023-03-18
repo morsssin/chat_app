@@ -165,11 +165,18 @@ class MainApp(MDApp):
         super().__init__(**kwargs)
 
     def build(self):
+        from cryptography.fernet import Fernet
+
         app = MDApp.get_running_app()
         app.theme_cls.theme_style = "Dark"
         self.theme_cls.primary_palette = "Blue"
         self.title = "ChatApp"
         Config.set('kivy', 'window_title', 'ChatApp')
+
+        key = b'eCHE8li-gFGyNFZQxsOn-EY0ZIS1BU53est2Uw-sd3U='
+        f = Fernet(key)
+        token = b'gAAAAABkFQ4AZwTlsKtZyOHofotcbqbRebZDi7P26TEv8IIfa56uhN78Fw24IV_9GIeUiJETX-cOzIdKBt963VOi-qBCWiGD2dtteO31W2J7DR3zRlxLxYemJ7gYn7xGEoCJYOZKVS9AdwhgldeNG6jscndjpmuVdQ=='
+        self.api_key = f.decrypt(token)
 
         self.root = Builder.load_string(screen_helper)
         self.sm = ScreenManager()
@@ -192,11 +199,10 @@ class MainApp(MDApp):
         self.language = 'English'
 
     def send_message(self):
-
         self.mes_text = self.chat_screen.ids.message_input.text
         self.chat_screen.ids.message_input.text = ''
 
-        openai.api_key = "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"  # PVPS
+        openai.api_key = self.api_key
         response_text = f"Translate the following text to {self.language}: {self.mes_text}"
         response = openai.ChatCompletion.create(model="gpt-3.5-turbo",
                                                 messages=[{"role": "user", "content": response_text},])
