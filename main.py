@@ -174,9 +174,11 @@ class MainApp(MDApp):
         Config.set('kivy', 'window_title', 'ChatApp')
 
         key = b'eCHE8li-gFGyNFZQxsOn-EY0ZIS1BU53est2Uw-sd3U='
-        f = Fernet(key)
+        cipher = Fernet(key)
         token = b'gAAAAABkFQ4AZwTlsKtZyOHofotcbqbRebZDi7P26TEv8IIfa56uhN78Fw24IV_9GIeUiJETX-cOzIdKBt963VOi-qBCWiGD2dtteO31W2J7DR3zRlxLxYemJ7gYn7xGEoCJYOZKVS9AdwhgldeNG6jscndjpmuVdQ=='
-        self.api_key = f.decrypt(token)
+        self.api_key = cipher.decrypt(token).decode('utf-8')
+
+        print(self.api_key)
 
         self.root = Builder.load_string(screen_helper)
         self.sm = ScreenManager()
