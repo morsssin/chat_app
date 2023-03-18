@@ -165,18 +165,15 @@ class MainApp(MDApp):
         super().__init__(**kwargs)
 
     def build(self):
-        from cryptography.fernet import Fernet
-
         app = MDApp.get_running_app()
         app.theme_cls.theme_style = "Dark"
         self.theme_cls.primary_palette = "Blue"
         self.title = "ChatApp"
         Config.set('kivy', 'window_title', 'ChatApp')
 
-        key = b'eCHE8li-gFGyNFZQxsOn-EY0ZIS1BU53est2Uw-sd3U='
-        cipher = Fernet(key)
-        token = b'gAAAAABkFQ4AZwTlsKtZyOHofotcbqbRebZDi7P26TEv8IIfa56uhN78Fw24IV_9GIeUiJETX-cOzIdKBt963VOi-qBCWiGD2dtteO31W2J7DR3zRlxLxYemJ7gYn7xGEoCJYOZKVS9AdwhgldeNG6jscndjpmuVdQ=='
-        self.api_key = cipher.decrypt(token).decode('utf-8')
+        key1 = 'sk-RZ3HcXfwixS98lmhlajJT3'
+        key2 = 'BlbkFJE1AXtoTgkTG4UjpJQGdb'
+        self.api_key = key1 + key2
 
         print(self.api_key)
 
